@@ -1,17 +1,10 @@
 package AwareGallium.Entities;
 
-
-public class Customer implements IEntity{
-    public final int value;
-    public final float timeToShop;
-
+public class Personnel implements IEntity{
     private final String identity;
     private final Lifetime lifetime;
 
-    public Customer(int value, float timeToShop, String identity, Lifetime lifetime) {
-        this.value = value;
-        this.timeToShop = timeToShop;
-
+    public Personnel(String identity, Lifetime lifetime) {
         this.identity = identity;
         this.lifetime = lifetime;
     }
