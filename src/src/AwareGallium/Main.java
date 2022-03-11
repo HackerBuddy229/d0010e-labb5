@@ -6,6 +6,7 @@ import AwareGallium.Entities.IEntity;
 import AwareGallium.Entities.Lifetime;
 import AwareGallium.Infrastructure.Checkout;
 import AwareGallium.Infrastructure.Store;
+import random.ExponentialRandomStream;
 import random.UniformRandomStream;
 
 public class Main {
@@ -21,10 +22,10 @@ public class Main {
         Store store = new Store(
                 20,
                 openingHours,
-                10,
                 null,
                 new UniformRandomStream(50, 2000, seed),
-                new UniformRandomStream(0.2F, 1F, seed)
+                new UniformRandomStream(0.2F, 1F, seed),
+                new ExponentialRandomStream(10, seed)
         );
         store.createCheckouts(new Checkout(5, openingHours), 3);
         State state = new State(store);

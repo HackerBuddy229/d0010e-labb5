@@ -1,6 +1,8 @@
 package AwareGallium.Entities;
 
-public class Lifetime {
+import AwareGallium.Infrastructure.Checkout;
+
+public class Lifetime implements Cloneable{
     public float start;
     public float end;
 
@@ -16,4 +18,9 @@ public class Lifetime {
 
     public boolean isAlive(float time) { return time < end; }
     public float lifeTime() { return end-start; }
+
+    @Override
+    public Lifetime clone() {
+        return new Lifetime(this.start, this.end);
+    }
 }

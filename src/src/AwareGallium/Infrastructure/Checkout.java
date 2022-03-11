@@ -12,11 +12,15 @@ public class Checkout implements Cloneable{
         this.lifetime = lifetime;
     }
 
+    public float timeToPay() {
+        return 1.0F/(float)customersPerUnit;
+    }
+
     @Override
-    protected Checkout clone() {
+    public Checkout clone() {
 
         int customersPerUnit = this.customersPerUnit;
-        Lifetime lifetime = new Lifetime(this.lifetime.start, this.lifetime.end);
+        Lifetime lifetime = this.lifetime.clone();
 
         Checkout out = new Checkout(customersPerUnit, lifetime);
 

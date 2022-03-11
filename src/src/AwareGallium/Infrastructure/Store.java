@@ -6,6 +6,7 @@ import AwareGallium.Entities.Lifetime;
 import AwareGallium.Entities.SequentialIdentityProvider;
 import AwareGallium.Wrappers.List;
 import Lab3.FIFO;
+import random.ExponentialRandomStream;
 import random.UniformRandomStream;
 
 public class Store {
@@ -17,20 +18,20 @@ public class Store {
     public int capacity;
     public FIFO paymentsQueue = new FIFO();
     public Lifetime openingHours;
-    public int customersPerUnit;
 
     public CustomerFactory customerFactory;
+    public ExponentialRandomStream customerArrivalFunction;
 
     public Store(int capacity,
                  Lifetime openingHours,
-                 int customersPerUnit,
                  SequentialIdentityProvider seq,
                  UniformRandomStream customerValueFunction,
-                 UniformRandomStream customerTimeFunction) {
+                 UniformRandomStream customerTimeFunction,
+                 ExponentialRandomStream customerArrivalFunction) {
 
         this.capacity = capacity;
         this.openingHours = openingHours;
-        this.customersPerUnit = customersPerUnit;
+        this.customerArrivalFunction = customerArrivalFunction;
 
         seq = seq != null ? seq : new SequentialIdentityProvider();
         this.customerFactory = new CustomerFactory(seq, customerValueFunction, customerTimeFunction);
@@ -38,13 +39,13 @@ public class Store {
 
     public Store(int capacity,
                  Lifetime openingHours,
-                 int customersPerUnit,
-                 CustomerFactory customerFactory) {
+                 CustomerFactory customerFactory,
+                 ExponentialRandomStream customerArrivalFunction) {
 
         this.capacity = capacity;
         this.openingHours = openingHours;
-        this.customersPerUnit = customersPerUnit;
         this.customerFactory = customerFactory;
+        this.customerArrivalFunction = customerArrivalFunction;
     }
 
     public void createCheckouts(Checkout template, int amount) {

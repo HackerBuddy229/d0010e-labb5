@@ -16,4 +16,10 @@ public class State extends Observable {
         this.store = store;
         eventQueue.addEvent(new SimulationStateEvent(SimulationState.START, 0.0F));
     }
+
+    @Override
+    public void notifyObservers() {
+        this.setChanged();
+        super.notifyObservers();
+    }
 }
