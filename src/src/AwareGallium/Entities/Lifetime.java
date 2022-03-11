@@ -9,6 +9,11 @@ public class Lifetime {
         this.start = start;
     }
 
+    public Lifetime(float start, float end) {
+        this.start = start;
+        this.end = end;
+    }
+
     public boolean isAlive(float time) { return time < end; }
     public float lifeTime() { return end-start; }
 }

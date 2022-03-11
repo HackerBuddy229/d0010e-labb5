@@ -6,14 +6,24 @@ public class Simulator {
     public State state;
     public View view;
 
-    public void run() {
-        IEvent event;
-        while ((event = state.eventQueue.popEvent()) != null) {
-            //set time
-            state.time = event.getTime();
+    public Simulator(State state, View view) {
+        this.state = state;
+        this.view = view;
 
-            //run event
-            event.run(state);
-        }
+        state.addObserver(view);
     }
+
+    public void run() {
+        IEvent event = state.eventQueue.popEvent();
+        if (event != null)
+            do {
+                //set time
+                state.time = event.getTime();
+
+                //run event
+                event.run(state);
+            } while ((event = state.eventQueue.popEvent()) != null && state.simulationState == SimulationState.START);
+    }
+
+
 }
