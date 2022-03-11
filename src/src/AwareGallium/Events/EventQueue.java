@@ -8,6 +8,10 @@ public class EventQueue {
         throw new NotImplementedException();
     }
 
+    public void addEvent(IEvent[] events) {
+        throw new NotImplementedException();
+    }
+
     public IEvent popEvent() {
         throw new NotImplementedException();
     }

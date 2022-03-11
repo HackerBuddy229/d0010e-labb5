@@ -2,23 +2,18 @@ package AwareGallium.Events;
 
 import AwareGallium.State;
 
-public class CustomerBuildEvent implements IEvent{
+public class QueuingEvent implements IEvent{
 
     public final float time;
 
-    public CustomerBuildEvent(float time) {
+    public QueuingEvent(float time) {
         this.time = time;
     }
 
-
     @Override
     public void run(State state) {
-        //get customer builder
-
-        //add to store
-            //check capacity
-
-        //add queuing event
+        //use queue length to create payment event
+        
     }
 
     @Override
