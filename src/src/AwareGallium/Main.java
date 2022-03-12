@@ -27,7 +27,7 @@ public class Main {
                 new UniformRandomStream(0.2F, 1F, seed),
                 new ExponentialRandomStream(10, seed)
         );
-        store.createCheckouts(new Checkout(5, openingHours), 3);
+        store.checkout = new Checkout(10, openingHours);
         State state = new State(store);
 
         //Create view

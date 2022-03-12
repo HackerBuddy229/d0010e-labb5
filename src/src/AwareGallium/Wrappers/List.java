@@ -1,6 +1,8 @@
 package AwareGallium.Wrappers;
 
-public class List<R> { //TODO: check it works
+import java.util.Iterator;
+
+public class List<R> implements Iterable<R> { //TODO: check it works
     private Object[] store;
     private int currentCapacity = 0;
 
@@ -58,4 +60,8 @@ public class List<R> { //TODO: check it works
         return size <= currentCapacity;
     }
 
+    @Override
+    public Iterator<R> iterator() {
+        return null;
+    }
 }

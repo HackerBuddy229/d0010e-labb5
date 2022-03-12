@@ -13,7 +13,7 @@ public class Store {
     //TODO: customers per hour
 
     public List<Customer> customers = new List<Customer>();
-    public List<Checkout> checkouts = new List<Checkout>();
+    public Checkout checkout; //TODO: refactor for single checkout
 
     public int capacity;
     public FIFO paymentsQueue = new FIFO();
@@ -48,8 +48,4 @@ public class Store {
         this.customerArrivalFunction = customerArrivalFunction;
     }
 
-    public void createCheckouts(Checkout template, int amount) {
-        for (int i = 0; i < amount; i++)
-            checkouts.add(template.clone());
-    }
 }
