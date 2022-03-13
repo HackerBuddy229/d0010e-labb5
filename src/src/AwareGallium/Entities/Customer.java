@@ -1,6 +1,8 @@
 package AwareGallium.Entities;
 
 
+import javax.security.auth.login.CredentialException;
+
 public class Customer implements IEntity{
     public final int value;
     public final float timeToShop;
@@ -24,5 +26,23 @@ public class Customer implements IEntity{
     @Override
     public Lifetime getLifetime() {
         return lifetime;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        //check not null
+        if (obj != null)
+            try {
+                //check type
+                Customer c = (Customer) obj;
+
+                //confirm identity
+                return c.identity.equals(this.identity);
+
+            } catch (ClassCastException ex) {
+                return false;
+            }
+
+        return false;
     }
 }

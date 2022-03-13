@@ -21,6 +21,10 @@ public class QueuingEvent implements IEvent{
 
         //add customer to queue
         state.store.paymentsQueue.add(customer);
+
+        //update state
+        state.notifyObservers();
+
     }
 
     @Override

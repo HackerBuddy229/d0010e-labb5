@@ -25,9 +25,16 @@ public class CustomerBuildEvent implements IEvent{
         //add to store
         state.store.customers.add(c);
 
+        //if customer died then don't add queuing event
+        if (!c.getLifetime().isAlive(state.time))
+            return;
+
 
         //add queuing event
         QueuingEvent event = new QueuingEvent(state.time + c.timeToShop, c);
+
+        //update state
+        state.notifyObservers();
     }
 
     private int aliveCustomers(State state) {

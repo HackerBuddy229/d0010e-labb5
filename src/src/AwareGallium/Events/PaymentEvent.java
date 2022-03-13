@@ -15,11 +15,23 @@ public class PaymentEvent implements IEvent {
 
     @Override
     public void run(State state) {
+        //remove from queue
+        Customer c = (Customer)state.store.paymentsQueue.first();
+        if (!c.equals(customer))
+            throw new RuntimeException("Payment queue corrupted; " + state.store.paymentsQueue.toString());
+        state.store.paymentsQueue.removeFirst();
+
+
+        //set death time
+        customer.getLifetime().end = state.time;
+
+        //update state
+        state.notifyObservers();
 
     }
 
     @Override
     public float getTime() {
-        return 0;
+        return time;
     }
 }

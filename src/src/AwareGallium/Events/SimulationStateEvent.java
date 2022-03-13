@@ -39,6 +39,9 @@ public class SimulationStateEvent implements IEvent{
             CustomerBuildEvent event = new CustomerBuildEvent(time);
             state.eventQueue.addEvent(event);
         }
+
+        //update state
+        state.notifyObservers();
     }
 
     private void stop(State state){
