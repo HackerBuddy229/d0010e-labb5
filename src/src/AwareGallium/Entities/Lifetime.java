@@ -17,7 +17,7 @@ public class Lifetime implements Cloneable{
     }
 
     public boolean isAlive(float time) { return time < end; }
-    public float lifeTime() { return end-start; }
+    public float duration() { return end-start; }
 
     @Override
     public Lifetime clone() {

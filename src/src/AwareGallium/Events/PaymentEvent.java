@@ -5,8 +5,9 @@ import AwareGallium.State;
 
 public class PaymentEvent implements IEvent {
 
+    public static final String EVENT_NAME = "Betalning";
     private final float time;
-    private final Customer customer;
+    public final Customer customer;
 
     public PaymentEvent(float time, Customer customer) {
         this.time = time;
@@ -26,12 +27,17 @@ public class PaymentEvent implements IEvent {
         customer.getLifetime().end = state.time;
 
         //update state
-        state.notifyObservers();
+        state.updateView(this);
 
     }
 
     @Override
     public float getTime() {
         return time;
+    }
+
+    @Override
+    public String getName() {
+        return EVENT_NAME;
     }
 }

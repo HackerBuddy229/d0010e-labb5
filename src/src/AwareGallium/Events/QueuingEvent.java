@@ -5,8 +5,9 @@ import AwareGallium.State;
 
 public class QueuingEvent implements IEvent{
 
+    public static final String EVENT_NAME = "Kö";
     public final float time;
-    private final Customer customer;
+    public final Customer customer;
 
     public QueuingEvent(float time, Customer customer) {
         this.time = time;
@@ -23,12 +24,17 @@ public class QueuingEvent implements IEvent{
         state.store.paymentsQueue.add(customer);
 
         //update state
-        state.notifyObservers();
+        state.updateView(this);
 
     }
 
     @Override
     public float getTime() {
         return time;
+    }
+
+    @Override
+    public String getName() {
+        return EVENT_NAME;
     }
 }

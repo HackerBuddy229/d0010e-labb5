@@ -9,6 +9,9 @@ public class SimulationStateEvent implements IEvent{
     private final SimulationState simulationState;
     public final float time;
 
+    public static final String STOP_NAME = "Stop";
+    public static final String START_NAME = "Start";
+
     public SimulationStateEvent(SimulationState simulationState, float time) {
         this.simulationState = simulationState;
 
@@ -41,7 +44,7 @@ public class SimulationStateEvent implements IEvent{
         }
 
         //update state
-        state.notifyObservers();
+        state.updateView(START_NAME);
     }
 
     private void stop(State state){
@@ -49,7 +52,7 @@ public class SimulationStateEvent implements IEvent{
         state.simulationState = SimulationState.STOP;
 
         //update view a last time
-        state.notifyObservers();
+        state.updateView(STOP_NAME);
     }
 
     @Override

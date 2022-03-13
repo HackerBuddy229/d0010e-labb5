@@ -4,9 +4,15 @@ import AwareGallium.Entities.Customer;
 import AwareGallium.Entities.CustomerFactory;
 import AwareGallium.State;
 
+import javax.management.remote.rmi.RMIConnectionImpl_Stub;
+
 public class CustomerBuildEvent implements IEvent{
 
+    public static final String EVENT_NAME = "Ankomst";
+
     public final float time;
+
+    public Customer costumer;
 
     public CustomerBuildEvent(float time) {
         this.time = time;
@@ -24,6 +30,7 @@ public class CustomerBuildEvent implements IEvent{
 
         //add to store
         state.store.customers.add(c);
+        this.costumer = c;
 
         //if customer died then don't add queuing event
         if (!c.getLifetime().isAlive(state.time))
@@ -34,7 +41,7 @@ public class CustomerBuildEvent implements IEvent{
         QueuingEvent event = new QueuingEvent(state.time + c.timeToShop, c);
 
         //update state
-        state.notifyObservers();
+        state.updateView(this);
     }
 
     private int aliveCustomers(State state) {
@@ -48,5 +55,10 @@ public class CustomerBuildEvent implements IEvent{
     @Override
     public float getTime() {
         return time;
+    }
+
+    @Override
+    public String getName() {
+        return EVENT_NAME;
     }
 }

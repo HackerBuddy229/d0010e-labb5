@@ -1,0 +1,8 @@
+PARAMETRAR
+==========
+Antal kassor, N..........: %d
+Max som ryms, M..........: %d
+Ankomshastighet, lambda..: %d
+Plocktider, [P_min..Pmax]: [%f..%f]
+Betaltider, [K_min..Kmax]: [%f..%f]
+Frö, f...................: %d

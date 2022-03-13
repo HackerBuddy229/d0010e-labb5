@@ -13,7 +13,7 @@ public class Store {
     //TODO: customers per hour
 
     public List<Customer> customers = new List<Customer>();
-    public Checkout checkout; //TODO: refactor for single checkout
+    public List<Checkout> checkouts; //TODO: refactor for single checkout
 
     public int capacity;
     public FIFO paymentsQueue = new FIFO();

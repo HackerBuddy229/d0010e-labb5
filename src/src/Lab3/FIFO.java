@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 public class FIFO {
     private List<Object> store;
     private int maxQueued = 0;
+    private int elementsQueued = 0;
 
     public FIFO() {
         this.store = new ArrayList<Object>();
@@ -16,6 +17,7 @@ public class FIFO {
 
     public void add(Object o) {
         store.add(o);
+        elementsQueued++;
         maxQueued = Math.max(maxQueued, store.size());
     }
 
@@ -43,6 +45,8 @@ public class FIFO {
     public int maxSize() {
         return maxQueued;
     }
+
+    public int allElementsQueued() {return elementsQueued; }
 
 
     public boolean isEmpty() {
