@@ -1,9 +1,6 @@
 package AwareGallium.Infrastructure;
 
-import AwareGallium.Entities.Customer;
-import AwareGallium.Entities.CustomerFactory;
-import AwareGallium.Entities.Lifetime;
-import AwareGallium.Entities.SequentialIdentityProvider;
+import AwareGallium.Entities.*;
 import AwareGallium.Wrappers.List;
 import Lab3.FIFO;
 import random.ExponentialRandomStream;
@@ -13,39 +10,53 @@ public class Store {
     //TODO: customers per hour
 
     public List<Customer> customers = new List<Customer>();
-    public List<Checkout> checkouts; //TODO: refactor for single checkout
 
-    public int capacity;
-    public FIFO paymentsQueue = new FIFO();
+    public int checkoutCapacity;
+    public UniformRandomStream checkoutTimeFunction;
+
+    public int customerCapacity;
+    public FIFO<Customer> paymentsQueue = new FIFO<Customer>();
     public Lifetime openingHours;
 
     public CustomerFactory customerFactory;
     public ExponentialRandomStream customerArrivalFunction;
 
-    public Store(int capacity,
+    public final float lambda;
+    public final float minPickTime, maxPickTime;
+    public final float minPayTime, maxPayTime;
+    public final float minValue, maxValue;
+    public final long seed;
+
+
+    public Store(int checkoutCapacity,
+                 int customerCapacity,
                  Lifetime openingHours,
-                 SequentialIdentityProvider seq,
-                 UniformRandomStream customerValueFunction,
-                 UniformRandomStream customerTimeFunction,
-                 ExponentialRandomStream customerArrivalFunction) {
-
-        this.capacity = capacity;
+                 float lambda,
+                 float minPickTime,
+                 float maxPickTime,
+                 float minPayTime,
+                 float maxPayTime,
+                 float minValue,
+                 float maxValue,
+                 long seed,
+                 SequentialIdentityProvider seq) {
+        this.checkoutCapacity = checkoutCapacity;
+        this.customerCapacity = customerCapacity;
         this.openingHours = openingHours;
-        this.customerArrivalFunction = customerArrivalFunction;
+        this.lambda = lambda;
+        this.minPickTime = minPickTime;
+        this.maxPickTime = maxPickTime;
+        this.minPayTime = minPayTime;
+        this.maxPayTime = maxPayTime;
+        this.minValue = minValue;
+        this.seed = seed;
+        this.maxValue = maxValue;
 
-        seq = seq != null ? seq : new SequentialIdentityProvider();
-        this.customerFactory = new CustomerFactory(seq, customerValueFunction, customerTimeFunction);
+        this.customerArrivalFunction = new ExponentialRandomStream(lambda, seed);
+        this.customerFactory = new CustomerFactory(seq,
+                new UniformRandomStream(minValue, maxValue),
+                new UniformRandomStream(minPickTime, maxPickTime));
+
+
     }
-
-    public Store(int capacity,
-                 Lifetime openingHours,
-                 CustomerFactory customerFactory,
-                 ExponentialRandomStream customerArrivalFunction) {
-
-        this.capacity = capacity;
-        this.openingHours = openingHours;
-        this.customerFactory = customerFactory;
-        this.customerArrivalFunction = customerArrivalFunction;
-    }
-
 }

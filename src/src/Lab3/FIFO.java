@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class FIFO {
-    private List<Object> store;
+public class FIFO<T> {
+    private List<T> store;
     private int maxQueued = 0;
     private int elementsQueued = 0;
 
     public FIFO() {
-        this.store = new ArrayList<Object>();
+        this.store = new ArrayList<T>();
     }
 
 
 
-    public void add(Object o) {
+    public void add(T o) {
         store.add(o);
         elementsQueued++;
         maxQueued = Math.max(maxQueued, store.size());
@@ -30,7 +30,7 @@ public class FIFO {
     }
 
 
-    public Object first() throws NoSuchElementException {
+    public T first() throws NoSuchElementException {
         if (store == null || store.isEmpty())
             throw new NoSuchElementException();
 

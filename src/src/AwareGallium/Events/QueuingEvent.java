@@ -1,6 +1,7 @@
 package AwareGallium.Events;
 
 import AwareGallium.Entities.Customer;
+import AwareGallium.Entities.Lifetime;
 import AwareGallium.State;
 
 public class QueuingEvent implements IEvent{
@@ -16,12 +17,15 @@ public class QueuingEvent implements IEvent{
 
     @Override
     public void run(State state) {
-        //use queue length to create payment event
-        float timeToQueue = state.store.checkout.timeToPay()*state.store.paymentsQueue.size();
-        PaymentEvent event = new PaymentEvent(timeToQueue, customer);
+
+        if (state.store.checkoutCapacity - state.store.paymentsQueue.size() > 0) {
+            PaymentEvent event = new PaymentEvent(state.time, customer);
+            state.eventQueue.addEvent(event);
+        }
 
         //add customer to queue
         state.store.paymentsQueue.add(customer);
+        customer.timeInQueue = new Lifetime(state.time);
 
         //update state
         state.updateView(this);

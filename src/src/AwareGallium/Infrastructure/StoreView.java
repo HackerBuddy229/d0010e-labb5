@@ -63,7 +63,7 @@ public class StoreView extends View {
         String openingIndicator = state.store.openingHours.isAlive(state.time) ? "Ö" : "S";
 
         //free checkouts
-        int freeCheckouts = Math.max(state.store.checkouts.size() - state.store.paymentsQueue.size(), 0);
+        int freeCheckouts = Math.max(state.store.checkoutCapacity - state.store.paymentsQueue.size(), 0);
 
         //unused checkout time
         float unusedCheckoutTime = getCheckoutFreeTime(state);
@@ -80,6 +80,12 @@ public class StoreView extends View {
         //all queued customers
         int allQueuedCustomers = state.store.paymentsQueue.allElementsQueued();
 
+        //time queued
+        float timeQueued = timeQueued(state);
+
+        //payments queue
+        String queue = state.store.paymentsQueue.toString(); //TODO: fix this
+
         String out = String.format(viewTemplate,
                 time, //time
                 o, //event name
@@ -90,11 +96,21 @@ public class StoreView extends View {
                 alive, //customers in the store
                 complete, //customers finished shopping
                 missed, //missed customers
-                allQueuedCustomers,
-                ) //TODO: resume here
+                allQueuedCustomers, //amount of customers who have stood in a queue
+                timeQueued,
+                queue); //TODO: resume here
 
 
         super.update(observable, o);
+    }
+
+    private float timeQueued(State state) {
+        float timeQueued = 0.0F;
+        for (Customer c: state.store.customers)
+            if (c.timeInQueue != null)
+                timeQueued += c.timeInQueue.duration();
+
+        return timeQueued;
     }
 
     private int aliveCustomers(State state) {
@@ -122,7 +138,7 @@ public class StoreView extends View {
     }
 
     private float getCheckoutFreeTime(State state) { //TODO: won't work for stop event
-        int paymentLoad = state.store.checkouts.size() - state.store.paymentsQueue.size();
+        int paymentLoad = state.store.checkoutCapacity - state.store.paymentsQueue.size();
         if (paymentLoad <= 0) { //TODO: fix this logic
             if (lastCheckoutActivity != -1.0F) {
                 float increase = state.time - lastCheckoutActivity;
@@ -144,7 +160,17 @@ public class StoreView extends View {
     private void printParameters(State state) {
         String template = new Scanner(PARAMETER_VIEW_PATH).toString();
 
-        String out = String.format(template, ); //TODO: finish this
+
+
+        String out = String.format(template,
+                state.store.checkoutCapacity,
+                state.store.customerCapacity,
+                state.store.lambda,
+                state.store.minPickTime,
+                state.store.maxPickTime,
+                state.store.minPayTime,
+                state.store.maxPayTime,
+                state.store.seed); //TODO: finish this
         System.out.println(out);
     }
 

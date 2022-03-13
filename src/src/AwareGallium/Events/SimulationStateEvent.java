@@ -59,4 +59,16 @@ public class SimulationStateEvent implements IEvent{
     public float getTime() {
         return 0;
     }
+
+    @Override
+    public String getName() {
+        switch (simulationState){
+            case STOP:
+                return STOP_NAME;
+            case START:
+                return START_NAME;
+        }
+
+        throw new RuntimeException("Malformed SimulationStateEvent");
+    }
 }

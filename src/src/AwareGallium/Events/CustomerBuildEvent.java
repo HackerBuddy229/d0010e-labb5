@@ -25,7 +25,7 @@ public class CustomerBuildEvent implements IEvent{
         CustomerFactory customerFactory = state.store.customerFactory;
         Customer c = customerFactory.build(state.time);
 
-        if (aliveCustomers(state) >= state.store.capacity)
+        if (aliveCustomers(state) >= state.store.customerCapacity)
             c.getLifetime().end = state.time;
 
         //add to store

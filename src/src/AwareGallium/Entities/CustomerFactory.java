@@ -4,7 +4,6 @@ import random.UniformRandomStream;
 
 public class CustomerFactory extends EntityFactory{
 
-
     private final UniformRandomStream valueFunction;
     private final UniformRandomStream timeFunction;
 

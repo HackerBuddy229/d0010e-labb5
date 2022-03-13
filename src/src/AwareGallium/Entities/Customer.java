@@ -7,6 +7,8 @@ public class Customer implements IEntity{
     public final int value;
     public final float timeToShop;
 
+    public Lifetime timeInQueue;
+
     private final String identity;
     private final Lifetime lifetime;
 

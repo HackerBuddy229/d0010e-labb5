@@ -1,9 +1,6 @@
 package AwareGallium;
 
-import AwareGallium.Entities.Customer;
-import AwareGallium.Entities.CustomerFactory;
-import AwareGallium.Entities.IEntity;
-import AwareGallium.Entities.Lifetime;
+import AwareGallium.Entities.*;
 import AwareGallium.Infrastructure.Checkout;
 import AwareGallium.Infrastructure.Store;
 import AwareGallium.Infrastructure.StoreView;
@@ -20,15 +17,18 @@ public class Main {
             //create store
 
         Lifetime openingHours = new Lifetime(0.0F, 24.0F);
-        Store store = new Store(
-                20,
-                openingHours,
-                null,
-                new UniformRandomStream(50, 2000, seed),
-                new UniformRandomStream(0.2F, 1F, seed),
-                new ExponentialRandomStream(10, seed)
-        );
-        store.checkouts.add(new Checkout(10, openingHours));
+        Store store = new Store(2,
+                100,
+                new Lifetime(0, 25),
+                10,
+                0.2F,
+                2F,
+                0.01F,
+                0.2F,
+                100F,
+                200F,
+                seed,
+                new SequentialIdentityProvider());
         State state = new State(store);
 
         //Create view
