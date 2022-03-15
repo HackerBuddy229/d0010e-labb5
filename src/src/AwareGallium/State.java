@@ -1,6 +1,7 @@
 package AwareGallium;
 
 import AwareGallium.Events.EventQueue;
+import AwareGallium.Events.IEvent;
 import AwareGallium.Events.SimulationStateEvent;
 import AwareGallium.Infrastructure.Store;
 
@@ -18,7 +19,7 @@ public class State extends Observable {
     }
 
 
-    public void updateView(Object event) {
+    public void updateView(IEvent event) {
         this.setChanged();
         this.notifyObservers(event);
     }

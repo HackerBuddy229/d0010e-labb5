@@ -39,6 +39,7 @@ public class CustomerBuildEvent implements IEvent{
 
         //add queuing event
         QueuingEvent event = new QueuingEvent(state.time + c.timeToShop, c);
+        state.eventQueue.addEvent(event);
 
         //update state
         state.updateView(this);

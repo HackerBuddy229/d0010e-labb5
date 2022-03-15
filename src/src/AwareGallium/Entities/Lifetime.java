@@ -4,7 +4,7 @@ import AwareGallium.Infrastructure.Checkout;
 
 public class Lifetime implements Cloneable{
     public float start;
-    public float end;
+    public float end = Float.MAX_VALUE;
 
 
     public Lifetime(float start) {

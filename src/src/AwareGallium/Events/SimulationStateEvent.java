@@ -41,10 +41,13 @@ public class SimulationStateEvent implements IEvent{
         while (time < state.store.openingHours.end) {
             CustomerBuildEvent event = new CustomerBuildEvent(time);
             state.eventQueue.addEvent(event);
+            time += state.store.customerArrivalFunction.next();
         }
 
+        state.simulationState = SimulationState.START;
+
         //update state
-        state.updateView(START_NAME);
+        state.updateView(this);
     }
 
     private void stop(State state){
@@ -52,7 +55,7 @@ public class SimulationStateEvent implements IEvent{
         state.simulationState = SimulationState.STOP;
 
         //update view a last time
-        state.updateView(STOP_NAME);
+        state.updateView(this);
     }
 
     @Override

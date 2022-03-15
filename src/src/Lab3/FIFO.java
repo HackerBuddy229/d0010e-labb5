@@ -30,9 +30,9 @@ public class FIFO<T> {
     }
 
 
-    public T first() throws NoSuchElementException {
+    public T first() {
         if (store == null || store.isEmpty())
-            throw new NoSuchElementException();
+            return null;
 
         return store.get(0);
     }

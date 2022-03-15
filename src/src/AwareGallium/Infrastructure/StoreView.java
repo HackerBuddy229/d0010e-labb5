@@ -8,6 +8,8 @@ import AwareGallium.Events.SimulationStateEvent;
 import AwareGallium.State;
 import AwareGallium.View;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Observable;
 import java.util.Scanner;
 
@@ -26,6 +28,7 @@ public class StoreView extends View {
 
     public StoreView(State state) {
         printParameters(state);
+        printHeaders();
     }
 
     @Override
@@ -83,12 +86,15 @@ public class StoreView extends View {
         //time queued
         float timeQueued = timeQueued(state);
 
+        //people in the queue
+        int inQueue = inQueue(state);
+
         //payments queue
         String queue = state.store.paymentsQueue.toString(); //TODO: fix this
 
         String out = String.format(viewTemplate,
                 time, //time
-                o, //event name
+                eventName, //event name
                 id, //costumer id
                 openingIndicator, //opening indicator
                 freeCheckouts, //unused checkouts
@@ -98,10 +104,16 @@ public class StoreView extends View {
                 missed, //missed customers
                 allQueuedCustomers, //amount of customers who have stood in a queue
                 timeQueued,
+                inQueue,
                 queue); //TODO: resume here
+        System.out.println(out);
 
 
         super.update(observable, o);
+    }
+
+    private int inQueue(State state) {
+        return state.store.paymentsQueue.size();
     }
 
     private float timeQueued(State state) {
@@ -153,12 +165,12 @@ public class StoreView extends View {
     }
 
     private void loadViewTemplate() {
-        String template = new Scanner(VIEW_TEMPLATE_PATH).toString();
+        String template = readFile(VIEW_TEMPLATE_PATH);
         viewTemplate = template;
     }
 
     private void printParameters(State state) {
-        String template = new Scanner(PARAMETER_VIEW_PATH).toString();
+        String template = readFile(PARAMETER_VIEW_PATH);
 
 
 
@@ -175,8 +187,20 @@ public class StoreView extends View {
     }
 
     private void printHeaders() {
-        String template = new Scanner(HEADER_VIEW_PATH).toString();
+        String template = readFile(HEADER_VIEW_PATH);
         System.out.println(template);
+    }
+
+    private String readFile(String filename) {
+        String out = "";
+        try {
+            Scanner scanner = new Scanner(new File(filename));
+            while (scanner.hasNextLine())
+                out += scanner.nextLine() + "\n";
+            return out;
+        } catch (FileNotFoundException ex) {
+            return "";
+        }
     }
 
 

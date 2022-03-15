@@ -53,10 +53,13 @@ public class Store {
         this.maxValue = maxValue;
 
         this.customerArrivalFunction = new ExponentialRandomStream(lambda, seed);
+
         this.customerFactory = new CustomerFactory(seq,
                 new UniformRandomStream(minValue, maxValue),
                 new UniformRandomStream(minPickTime, maxPickTime));
 
+        this.checkoutTimeFunction = new UniformRandomStream(minPayTime,
+                maxPayTime, seed);
 
     }
 }
