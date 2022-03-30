@@ -33,7 +33,7 @@ public class PaymentEvent implements IEvent {
             //add event
         Customer nextCustomer = state.store.paymentsQueue.first();
         if (nextCustomer != null) {
-            float paymentTime = state.time+(float)state.store.checkoutTimeFunction.next();
+            float paymentTime = this.time + (float)state.store.checkoutTimeFunction.next();
             PaymentEvent event = new PaymentEvent(paymentTime, nextCustomer);
 
             state.eventQueue.addEvent(event);

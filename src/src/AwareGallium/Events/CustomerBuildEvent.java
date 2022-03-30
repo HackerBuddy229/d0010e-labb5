@@ -41,6 +41,14 @@ public class CustomerBuildEvent implements IEvent{
         QueuingEvent event = new QueuingEvent(state.time + c.timeToShop, c);
         state.eventQueue.addEvent(event);
 
+        //if store open, add customer build event
+        float time = state.time;
+        time += state.store.customerArrivalFunction.next();
+        if (state.store.openingHours.isAlive(time)) {
+            CustomerBuildEvent cbe = new CustomerBuildEvent(time);
+            state.eventQueue.addEvent(cbe);
+        }
+
         //update state
         state.updateView(this);
     }

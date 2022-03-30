@@ -31,17 +31,16 @@ public class SimulationStateEvent implements IEvent{
 
     private void start(State state){
         //create customer build events
-            //while time_l < closing time
+            //if time_l < closing time
             // time_l += random
             //create customer
             //add customer
         float time = 0.0F;
         time += state.store.customerArrivalFunction.next();
 
-        while (time < state.store.openingHours.end) {
+        if (state.store.openingHours.isAlive(time)) {
             CustomerBuildEvent event = new CustomerBuildEvent(time);
             state.eventQueue.addEvent(event);
-            time += state.store.customerArrivalFunction.next();
         }
 
         state.simulationState = SimulationState.START;

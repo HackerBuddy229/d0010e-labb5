@@ -55,8 +55,8 @@ public class Store {
         this.customerArrivalFunction = new ExponentialRandomStream(lambda, seed);
 
         this.customerFactory = new CustomerFactory(seq,
-                new UniformRandomStream(minValue, maxValue),
-                new UniformRandomStream(minPickTime, maxPickTime));
+                new UniformRandomStream(minValue, maxValue, seed),
+                new UniformRandomStream(minPickTime, maxPickTime, seed));
 
         this.checkoutTimeFunction = new UniformRandomStream(minPayTime,
                 maxPayTime, seed);

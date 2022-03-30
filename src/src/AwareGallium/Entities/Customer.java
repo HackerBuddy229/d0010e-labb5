@@ -47,4 +47,9 @@ public class Customer implements IEntity{
 
         return false;
     }
+
+    @Override
+    public String toString() {
+        return this.identity;
+    }
 }

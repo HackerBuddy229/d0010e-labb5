@@ -11,12 +11,13 @@ public class EventQueue {
         List<IEvent> newList = new List<IEvent>();
         boolean fitted = false;
         for (IEvent e: events) {
-            if (e.getTime() >= event.getTime()) {
+            if (e.getTime() >= event.getTime() && !fitted) {
                 newList.add(event);
                 fitted = true;
             }
             newList.add(e);
         }
+
         if (newList.size() == 0 || !fitted)
             newList.add(event);
 

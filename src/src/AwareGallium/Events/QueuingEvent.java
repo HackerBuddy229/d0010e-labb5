@@ -19,7 +19,8 @@ public class QueuingEvent implements IEvent{
     public void run(State state) {
 
         if (state.store.checkoutCapacity - state.store.paymentsQueue.size() > 0) {
-            PaymentEvent event = new PaymentEvent(state.time, customer);
+            PaymentEvent event =
+                    new PaymentEvent(state.time + (float)state.store.checkoutTimeFunction.next(), customer);
             state.eventQueue.addEvent(event);
         }
 
@@ -29,7 +30,6 @@ public class QueuingEvent implements IEvent{
 
         //update state
         state.updateView(this);
-
     }
 
     @Override
