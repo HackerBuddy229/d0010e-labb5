@@ -30,6 +30,11 @@ public class SimulationStateEvent implements IEvent{
     }
 
     private void start(State state){
+
+        //update state
+        state.updateView(this);
+
+
         //create customer build events
             //if time_l < closing time
             // time_l += random
@@ -38,23 +43,24 @@ public class SimulationStateEvent implements IEvent{
         float time = 0.0F;
         time += state.store.customerArrivalFunction.next();
 
-        if (state.store.openingHours.isAlive(time)) {
+        if (state.store.openingHours.isAlive(state.time)) {
             CustomerBuildEvent event = new CustomerBuildEvent(time);
             state.eventQueue.addEvent(event);
         }
 
         state.simulationState = SimulationState.START;
 
-        //update state
-        state.updateView(this);
+
     }
 
     private void stop(State state){
+        //update view a last time
+        state.updateView(this);
+
         //change state
         state.simulationState = SimulationState.STOP;
 
-        //update view a last time
-        state.updateView(this);
+
     }
 
     @Override

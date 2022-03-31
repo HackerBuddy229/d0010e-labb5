@@ -19,7 +19,7 @@ public class Main {
         Lifetime openingHours = new Lifetime(0.0F, 24.0F);
         Store store = new Store(2,
                 5,
-                new Lifetime(0, 14),
+                new Lifetime(0, 10),
                 1.0F,
                 0.5F,
                 1.0F,

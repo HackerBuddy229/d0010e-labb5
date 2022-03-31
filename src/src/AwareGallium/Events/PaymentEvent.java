@@ -16,32 +16,30 @@ public class PaymentEvent implements IEvent {
 
     @Override
     public void run(State state) {
-        //pop first
-            //check valid
-        Customer c = state.store.paymentsQueue.first();
-        if (!c.equals(customer))
-            throw new RuntimeException("Payment queue corrupted; " + state.store.paymentsQueue.toString());
-
-            //process customer
-        state.store.paymentsQueue.removeFirst();
-
-        customer.getLifetime().end = state.time;
-        customer.timeInQueue.end = state.time;
-
-        //check next
-            //create event with random
-            //add event
-        Customer nextCustomer = state.store.paymentsQueue.first();
-        if (nextCustomer != null) {
-            float paymentTime = this.time + (float)state.store.checkoutTimeFunction.next();
-            PaymentEvent event = new PaymentEvent(paymentTime, nextCustomer);
-
-            state.eventQueue.addEvent(event);
-        }
-
         //update state
         state.updateView(this);
 
+        //fix customer field
+        customer.getLifetime().end = state.time;
+        customer.timeInQueue.end = state.time - customer.timeToPay;
+
+
+        // if fifo !not empty
+            //pop top
+            //create next event with function
+
+        Customer nextCustomer = state.store.paymentsQueue.first();
+        if (nextCustomer != null) {
+            state.store.paymentsQueue.removeFirst();
+            float timeToPay = (float)state.store.checkoutTimeFunction.next();
+            float paymentTime = state.time + timeToPay;
+            nextCustomer.timeToPay = timeToPay;
+            PaymentEvent event = new PaymentEvent(paymentTime, nextCustomer);
+
+            state.eventQueue.addEvent(event);
+        } else {
+            state.store.freeCheckouts++;
+        }
     }
 
     @Override

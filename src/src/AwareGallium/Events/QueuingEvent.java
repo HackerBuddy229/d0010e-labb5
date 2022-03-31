@@ -18,18 +18,22 @@ public class QueuingEvent implements IEvent{
     @Override
     public void run(State state) {
 
-        if (state.store.checkoutCapacity - state.store.paymentsQueue.size() > 0) {
-            PaymentEvent event =
-                    new PaymentEvent(state.time + (float)state.store.checkoutTimeFunction.next(), customer);
-            state.eventQueue.addEvent(event);
-        }
-
-        //add customer to queue
-        state.store.paymentsQueue.add(customer);
-        customer.timeInQueue = new Lifetime(state.time);
-
         //update state
         state.updateView(this);
+
+        if (state.store.freeCheckouts > 0) {
+            customer.timeInQueue = new Lifetime(0.0F, 0.0F);
+            float timeToPay = (float)state.store.checkoutTimeFunction.next();
+            PaymentEvent event =
+                    new PaymentEvent(state.time + timeToPay, customer);
+            customer.timeToPay = timeToPay;
+            state.eventQueue.addEvent(event);
+            state.store.freeCheckouts--;
+        } else {
+            //add customer to queue
+            state.store.paymentsQueue.add(customer);
+            customer.timeInQueue = new Lifetime(state.time);
+        }
     }
 
     @Override

@@ -119,8 +119,10 @@ public class StoreView extends View {
     private float timeQueued(State state) {
         float timeQueued = 0.0F;
         for (Customer c: state.store.customers)
-            if (c.timeInQueue != null)
-                timeQueued += c.timeInQueue.duration();
+            if (c.timeInQueue != null){
+                float specific = c.timeInQueue.duration();
+                timeQueued += specific;
+            }
 
         return timeQueued;
     }

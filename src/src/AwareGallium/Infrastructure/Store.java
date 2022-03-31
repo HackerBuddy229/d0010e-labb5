@@ -12,6 +12,7 @@ public class Store {
     public List<Customer> customers = new List<Customer>();
 
     public int checkoutCapacity;
+    public int freeCheckouts;
     public UniformRandomStream checkoutTimeFunction;
 
     public int customerCapacity;
@@ -41,6 +42,7 @@ public class Store {
                  long seed,
                  SequentialIdentityProvider seq) {
         this.checkoutCapacity = checkoutCapacity;
+        this.freeCheckouts = checkoutCapacity;
         this.customerCapacity = customerCapacity;
         this.openingHours = openingHours;
         this.lambda = lambda;

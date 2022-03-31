@@ -12,6 +12,8 @@ public class Customer implements IEntity{
     private final String identity;
     private final Lifetime lifetime;
 
+    public float timeToPay;
+
     public Customer(int value, float timeToShop, String identity, Lifetime lifetime) {
         this.value = value;
         this.timeToShop = timeToShop;
