@@ -4,6 +4,9 @@ import AwareGallium.Entities.Customer;
 import AwareGallium.SimulationState;
 import AwareGallium.State;
 
+/**
+ * @author Rasmus Bengtsson
+ */
 public class SimulationStateEvent implements IEvent{
 
     private final SimulationState simulationState;
@@ -12,6 +15,10 @@ public class SimulationStateEvent implements IEvent{
     public static final String STOP_NAME = "Stop";
     public static final String START_NAME = "Start";
 
+    /**
+     * @param simulationState An enumeration representing the start or end of the simulation
+     * @param time The time for the event to take place
+     */
     public SimulationStateEvent(SimulationState simulationState, float time) {
         this.simulationState = simulationState;
 
@@ -49,8 +56,6 @@ public class SimulationStateEvent implements IEvent{
         }
 
         state.simulationState = SimulationState.START;
-
-
     }
 
     private void stop(State state){

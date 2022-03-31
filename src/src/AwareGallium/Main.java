@@ -1,30 +1,40 @@
 package AwareGallium;
 
 import AwareGallium.Entities.*;
-import AwareGallium.Infrastructure.Checkout;
 import AwareGallium.Infrastructure.Store;
 import AwareGallium.Infrastructure.StoreView;
-import random.ExponentialRandomStream;
-import random.UniformRandomStream;
 
+/**
+ * @author Rasmus Bengtsson
+ */
 public class Main {
 
     public static void main(String[] args) {
         //get seed
         long seed = Integer.parseInt(args[0]);
 
+        RunOptimize(seed);
+        //runDefault(seed);
+
+    }
+
+    private static void RunOptimize(long seed) {
+        Optimize.seedQuery(seed);
+    }
+
+    private static void runDefault(long seed) {
         //Create state
-            //create store
+        //create store
 
         Lifetime openingHours = new Lifetime(0.0F, 24.0F);
         Store store = new Store(2,
-                5,
-                new Lifetime(0, 10),
-                1.0F,
-                0.5F,
-                1.0F,
-                2.0F,
+                7,
+                new Lifetime(0, 8),
                 3.0F,
+                0.6F,
+                0.9F,
+                0.35F,
+                0.6F,
                 100F,
                 200F,
                 seed,

@@ -2,6 +2,9 @@ package AwareGallium;
 
 import AwareGallium.Events.IEvent;
 
+/**
+ * @author Rasmus Bengtsson
+ */
 public class Simulator {
     public State state;
     public View view;
@@ -9,10 +12,15 @@ public class Simulator {
     public Simulator(State state, View view) {
         this.state = state;
         this.view = view;
+        if (view != null) {
+            state.addObserver(view);
+        }
 
-        state.addObserver(view);
     }
 
+    /**
+     * Simulates the events in the event queue using the state
+     */
     public void run() {
         IEvent event = state.eventQueue.popEvent();
         if (event != null)

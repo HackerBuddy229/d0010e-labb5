@@ -3,12 +3,19 @@ package AwareGallium.Events;
 import AwareGallium.Entities.Customer;
 import AwareGallium.State;
 
+/**
+ * @author Rasmus Bengtsson
+ */
 public class PaymentEvent implements IEvent {
 
     public static final String EVENT_NAME = "Betalning";
     private final float time;
     public final Customer customer;
 
+    /**
+     * @param time The time for the event
+     * @param customer The customer who pays
+     */
     public PaymentEvent(float time, Customer customer) {
         this.time = time;
         this.customer = customer;

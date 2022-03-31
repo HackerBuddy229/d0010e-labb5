@@ -7,6 +7,10 @@ import AwareGallium.Infrastructure.Store;
 
 import java.util.Observable;
 
+/**
+ * @author Rasmus Bengtsson
+ * The base simulation state
+ */
 public class State extends Observable {
     public float time = 0.0F;
     public Store store;

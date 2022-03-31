@@ -13,6 +13,9 @@ import java.io.FileNotFoundException;
 import java.util.Observable;
 import java.util.Scanner;
 
+/**
+ * @author Rasmus Bengtsson
+ */
 public class StoreView extends View {
 
     private static final String PARAMETER_VIEW_PATH = "deps/parameters.template";
@@ -31,6 +34,11 @@ public class StoreView extends View {
         printHeaders();
     }
 
+    /**
+     * Prints information about the state before each event
+     * @param observable The State
+     * @param o The event passed along
+     */
     @Override
     public void update(Observable observable, Object o) {
         State state = (State) observable;
@@ -112,10 +120,16 @@ public class StoreView extends View {
         super.update(observable, o);
     }
 
+    /**
+     * @return The customers in the queue
+     */
     private int inQueue(State state) {
         return state.store.paymentsQueue.size();
     }
 
+    /**
+     * @return The total time queued
+     */
     private float timeQueued(State state) {
         float timeQueued = 0.0F;
         for (Customer c: state.store.customers)
@@ -127,6 +141,9 @@ public class StoreView extends View {
         return timeQueued;
     }
 
+    /**
+     * @return The amount of customers in the store
+     */
     private int aliveCustomers(State state) {
         int alive = 0;
         for (Customer c: state.store.customers)
@@ -135,14 +152,20 @@ public class StoreView extends View {
         return alive;
     }
 
+    /**
+     * @return The amount of customers who have both entered the store and completed a purchase
+     */
     private int completeCustomers(State state) {
         int complete = 0;
         for (Customer c: state.store.customers)
-            complete += c.getLifetime().isAlive(state.time) && c.getLifetime().duration() > 0.0F ? 1 : 0;
+            complete += !c.getLifetime().isAlive(state.time) && c.getLifetime().duration() > 0.0F ? 1 : 0;
 
         return complete;
     }
 
+    /**
+     * @return Customers who turned away do too capacity issues or the store being closed
+     */
     private int neverCustomers(State state) {
         int nevers = 0;
         for (Customer c: state.store.customers)
@@ -151,6 +174,9 @@ public class StoreView extends View {
         return nevers;
     }
 
+    /**
+     * @return The time the checkouts have been out of use
+     */
     private float getCheckoutFreeTime(State state) { //TODO: won't work for stop event
         int paymentLoad = state.store.checkoutCapacity - state.store.paymentsQueue.size();
         if (paymentLoad <= 0) { //TODO: fix this logic
@@ -166,11 +192,17 @@ public class StoreView extends View {
         return unusedCheckouts;
     }
 
+    /**
+     * Fetches the ViewTemplate from memory
+     */
     private void loadViewTemplate() {
         String template = readFile(VIEW_TEMPLATE_PATH);
         viewTemplate = template;
     }
 
+    /**
+     * Prints the paramters for the simulation
+     */
     private void printParameters(State state) {
         String template = readFile(PARAMETER_VIEW_PATH);
 
@@ -188,11 +220,19 @@ public class StoreView extends View {
         System.out.println(out);
     }
 
+    /**
+     * Prints the headers for the simulation data
+     */
     private void printHeaders() {
         String template = readFile(HEADER_VIEW_PATH);
         System.out.println(template);
     }
 
+    /**
+     * Utility used to fetch the raw file contents of the templates
+     * @param filename the filename/uri
+     * @return The string content
+     */
     private String readFile(String filename) {
         String out = "";
         try {

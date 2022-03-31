@@ -1,7 +1,9 @@
 package AwareGallium.Entities;
 
-import AwareGallium.Infrastructure.Checkout;
-
+/**
+ * @author Rasmus Bengtsson
+ * A class representing a period of time with a distinct end
+ */
 public class Lifetime implements Cloneable{
     public float start;
     public float end = Float.MAX_VALUE;
@@ -16,6 +18,11 @@ public class Lifetime implements Cloneable{
         this.end = end;
     }
 
+    /**
+     * Weather a specific time is within the start end range
+     * @param time the time to check alive for
+     * @return weather or not the period is still active
+     */
     public boolean isAlive(float time) { return time < end && time >= start; }
     public float duration() {
         if (end == Float.MAX_VALUE)

@@ -6,8 +6,10 @@ import Lab3.FIFO;
 import random.ExponentialRandomStream;
 import random.UniformRandomStream;
 
+/**
+ * @author Rasmus Bengtsson
+ */
 public class Store {
-    //TODO: customers per hour
 
     public List<Customer> customers = new List<Customer>();
 

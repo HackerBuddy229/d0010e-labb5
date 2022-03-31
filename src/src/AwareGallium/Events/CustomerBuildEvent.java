@@ -4,6 +4,9 @@ import AwareGallium.Entities.Customer;
 import AwareGallium.Entities.CustomerFactory;
 import AwareGallium.State;
 
+/**
+ * @author Rasmus Bengtsson
+ */
 public class CustomerBuildEvent implements IEvent{
 
     public static final String EVENT_NAME = "Ankomst";
@@ -12,6 +15,9 @@ public class CustomerBuildEvent implements IEvent{
 
     public Customer costumer;
 
+    /**
+     * @param time The time when the event takes place
+     */
     public CustomerBuildEvent(float time) {
         this.time = time;
     }
@@ -36,14 +42,13 @@ public class CustomerBuildEvent implements IEvent{
         //update state
         state.updateView(this);
 
-        //if customer died then don't add queuing event
-        if (!c.getLifetime().isAlive(state.time)) //TODO: check
-            return;
+        //if customer alive
+        if (c.getLifetime().isAlive(state.time)) {
+            //add queuing event
+            QueuingEvent event = new QueuingEvent(state.time + c.timeToShop, c);
+            state.eventQueue.addEvent(event);
+        }
 
-
-        //add queuing event
-        QueuingEvent event = new QueuingEvent(state.time + c.timeToShop, c);
-        state.eventQueue.addEvent(event);
 
         //if store open, add customer build event
         if (state.store.openingHours.isAlive(state.time)) {
@@ -56,6 +61,11 @@ public class CustomerBuildEvent implements IEvent{
 
     }
 
+    /**
+     * Checks for how many customers are alive
+     * @param state The current state
+     * @return The amount of alive customers
+     */
     private int aliveCustomers(State state) {
         int alive = 0;
         for (Customer c: state.store.customers)
